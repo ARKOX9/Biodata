@@ -1,0 +1,269 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BIO DATA Generator — Mobile Friendly</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- PDF download helper -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    /* FORM: always uppercase typing */
+    input, select, textarea { text-transform: uppercase; font-size: 16px; }
+    label { font-weight: 600; }/* OUTPUT (A4) */
+.a4page {
+  width: 8.27in;
+  height: 11.69in;
+  margin: auto;
+  padding: 1.5cm;              /* invisible margin */
+  background: white;           /* white page */
+  color: black;                /* black text only */
+  font-size: 18pt;             /* as requested */
+  line-height: 1.7;            /* comfy spacing */
+  overflow: hidden;            /* keep content inside */
+}
+.title { font-weight: 800; text-align: center; text-decoration: underline; }
+.photo-box { width: 140px; height: 170px; border: 1px solid #000; float: right; text-align: center; font-size: 12pt; margin-bottom: 8px; }
+.kv { margin-bottom: 8px; }
+.kv b { display: inline-block; min-width: 320px; } /* label width to keep ':' aligned */
+.kv b::after { content: " :"; }                  /* colon at end of label */
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+table, th, td { border: 1px solid #000; }
+th, td { padding: 6px; text-align: center; }
+
+/* PRINT only the A4 output */
+@media print {
+  body * { visibility: hidden !important; }
+  #output, #output * { visibility: visible !important; }
+  #output { position: absolute; inset: 0; margin: 0; }
+}
+
+  </style>
+</head>
+<body class="bg-gradient-to-br from-pink-100 via-indigo-100 to-purple-100 min-h-screen p-4">
+  <div class="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl p-4">
+    <h1 class="text-2xl font-extrabold text-center mb-4 text-indigo-700">BIO DATA GENERATOR</h1><!-- FORM -->
+<form id="biodataForm" class="space-y-3">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <input required name="name" placeholder="* NAME" class="p-3 border rounded">
+    <input required name="fname" placeholder="* FATHER'S NAME" class="p-3 border rounded">
+    <input required name="mname" placeholder="* MOTHER'S NAME" class="p-3 border rounded">
+    <select required name="gender" class="p-3 border rounded">
+      <option value="">* GENDER</option>
+      <option>MALE</option><option>FEMALE</option>
+    </select>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <input required type="date" name="dob" class="p-3 border rounded" title="* DATE OF BIRTH (DD-MM-YYYY)">
+    <input required name="marital" placeholder="* MARITAL STATUS" class="p-3 border rounded">
+    <select name="category" class="p-3 border rounded" title="CATEGORY (ASSAM)">
+      <option value="">CATEGORY</option>
+      <option>GENERAL</option><option>OBC</option><option>SC</option><option>ST(H)</option><option>ST(P)</option><option>MOBC</option>
+    </select>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <select required name="religion" class="p-3 border rounded">
+      <option value="">* RELIGION</option>
+      <option>HINDU</option><option>ISLAM</option><option>OTHER</option>
+    </select>
+    <select required name="nationality" class="p-3 border rounded">
+      <option value="">* NATIONALITY</option>
+      <option>INDIAN</option><option>OTHER</option>
+    </select>
+    <div class="flex gap-2">
+      <select required name="countryCode" class="p-3 border rounded w-40" title="COUNTRY CODE">
+        <!-- Country Calling Codes (major + full list) -->
+        <option>+93 AFGHANISTAN</option><option>+355 ALBANIA</option><option>+213 ALGERIA</option><option>+376 ANDORRA</option><option>+244 ANGOLA</option><option>+54 ARGENTINA</option><option>+374 ARMENIA</option><option>+61 AUSTRALIA</option><option>+43 AUSTRIA</option><option>+994 AZERBAIJAN</option><option>+973 BAHRAIN</option><option>+880 BANGLADESH</option><option>+1 BARBADOS</option><option>+375 BELARUS</option><option>+32 BELGIUM</option><option>+501 BELIZE</option><option>+229 BENIN</option><option>+975 BHUTAN</option><option>+591 BOLIVIA</option><option>+387 BOSNIA & HERZEGOVINA</option><option>+267 BOTSWANA</option><option>+55 BRAZIL</option><option>+673 BRUNEI</option><option>+359 BULGARIA</option><option>+226 BURKINA FASO</option><option>+257 BURUNDI</option><option>+855 CAMBODIA</option><option>+237 CAMEROON</option><option>+1 CANADA</option><option>+238 CAPE VERDE</option><option>+236 CENTRAL AFRICAN REPUBLIC</option><option>+235 CHAD</option><option>+56 CHILE</option><option>+86 CHINA</option><option>+57 COLOMBIA</option><option>+269 COMOROS</option><option>+242 CONGO</option><option>+682 COOK ISLANDS</option><option>+506 COSTA RICA</option><option>+385 CROATIA</option><option>+53 CUBA</option><option>+357 CYPRUS</option><option>+420 CZECHIA</option><option>+45 DENMARK</option><option>+253 DJIBOUTI</option><option>+1 DOMINICA</option><option>+1 DOMINICAN REPUBLIC</option><option>+593 ECUADOR</option><option>+20 EGYPT</option><option>+503 EL SALVADOR</option><option>+240 EQUATORIAL GUINEA</option><option>+291 ERITREA</option><option>+372 ESTONIA</option><option>+251 ETHIOPIA</option><option>+679 FIJI</option><option>+358 FINLAND</option><option>+33 FRANCE</option><option>+241 GABON</option><option>+220 GAMBIA</option><option>+995 GEORGIA</option><option>+49 GERMANY</option><option>+233 GHANA</option><option>+30 GREECE</option><option>+299 GREENLAND</option><option>+1 GRENADA</option><option>+502 GUATEMALA</option><option>+224 GUINEA</option><option>+245 GUINEA-BISSAU</option><option>+592 GUYANA</option><option>+509 HAITI</option><option>+504 HONDURAS</option><option>+36 HUNGARY</option><option>+354 ICELAND</option><option selected>+91 INDIA</option><option>+62 INDONESIA</option><option>+98 IRAN</option><option>+964 IRAQ</option><option>+353 IRELAND</option><option>+972 ISRAEL</option><option>+39 ITALY</option><option>+1 JAMAICA</option><option>+81 JAPAN</option><option>+962 JORDAN</option><option>+7 KAZAKHSTAN</option><option>+254 KENYA</option><option>+686 KIRIBATI</option><option>+965 KUWAIT</option><option>+996 KYRGYZSTAN</option><option>+856 LAOS</option><option>+371 LATVIA</option><option>+961 LEBANON</option><option>+266 LESOTHO</option><option>+231 LIBERIA</option><option>+218 LIBYA</option><option>+423 LIECHTENSTEIN</option><option>+370 LITHUANIA</option><option>+352 LUXEMBOURG</option><option>+853 MACAO</option><option>+389 NORTH MACEDONIA</option><option>+261 MADAGASCAR</option><option>+265 MALAWI</option><option>+60 MALAYSIA</option><option>+960 MALDIVES</option><option>+223 MALI</option><option>+356 MALTA</option><option>+692 MARSHALL ISLANDS</option><option>+596 MARTINIQUE</option><option>+222 MAURITANIA</option><option>+230 MAURITIUS</option><option>+52 MEXICO</option><option>+691 MICRONESIA</option><option>+373 MOLDOVA</option><option>+377 MONACO</option><option>+976 MONGOLIA</option><option>+382 MONTENEGRO</option><option>+212 MOROCCO</option><option>+258 MOZAMBIQUE</option><option>+95 MYANMAR</option><option>+264 NAMIBIA</option><option>+674 NAURU</option><option>+977 NEPAL</option><option>+31 NETHERLANDS</option><option>+687 NEW CALEDONIA</option><option>+64 NEW ZEALAND</option><option>+505 NICARAGUA</option><option>+227 NIGER</option><option>+234 NIGERIA</option><option>+850 NORTH KOREA</option><option>+47 NORWAY</option><option>+968 OMAN</option><option>+92 PAKISTAN</option><option>+680 PALAU</option><option>+970 PALESTINE</option><option>+507 PANAMA</option><option>+675 PAPUA NEW GUINEA</option><option>+595 PARAGUAY</option><option>+51 PERU</option><option>+63 PHILIPPINES</option><option>+48 POLAND</option><option>+351 PORTUGAL</option><option>+974 QATAR</option><option>+40 ROMANIA</option><option>+7 RUSSIA</option><option>+250 RWANDA</option><option>+685 SAMOA</option><option>+378 SAN MARINO</option><option>+239 SAO TOME & PRINCIPE</option><option>+966 SAUDI ARABIA</option><option>+221 SENEGAL</option><option>+381 SERBIA</option><option>+248 SEYCHELLES</option><option>+232 SIERRA LEONE</option><option>+65 SINGAPORE</option><option>+421 SLOVAKIA</option><option>+386 SLOVENIA</option><option>+677 SOLOMON ISLANDS</option><option>+252 SOMALIA</option><option>+27 SOUTH AFRICA</option><option>+82 SOUTH KOREA</option><option>+34 SPAIN</option><option>+94 SRI LANKA</option><option>+249 SUDAN</option><option>+597 SURINAME</option><option>+268 ESWATINI</option><option>+46 SWEDEN</option><option>+41 SWITZERLAND</option><option>+963 SYRIA</option><option>+886 TAIWAN</option><option>+992 TAJIKISTAN</option><option>+255 TANZANIA</option><option>+66 THAILAND</option><option>+228 TOGO</option><option>+676 TONGA</option><option>+216 TUNISIA</option><option>+90 TURKEY</option><option>+993 TURKMENISTAN</option><option>+688 TUVALU</option><option>+256 UGANDA</option><option>+380 UKRAINE</option><option>+971 UNITED ARAB EMIRATES</option><option>+44 UNITED KINGDOM</option><option>+1 UNITED STATES</option><option>+598 URUGUAY</option><option>+998 UZBEKISTAN</option><option>+678 VANUATU</option><option>+58 VENEZUELA</option><option>+84 VIETNAM</option><option>+967 YEMEN</option><option>+260 ZAMBIA</option><option>+263 ZIMBABWE</option>
+      </select>
+      <input required name="phone" pattern="[0-9]{10}" placeholder="* PHONE (10 DIGITS)" class="flex-1 p-3 border rounded" title="INDIAN FORMAT 10 DIGITS">
+    </div>
+  </div>
+
+  <input type="email" name="gmail" placeholder="GMAIL (OPTIONAL)" class="w-full p-3 border rounded">
+
+  <h3 class="font-bold text-indigo-700">ADDRESS</h3>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <select name="state" id="state" class="p-3 border rounded" title="STATE">
+      <option value="">STATE</option>
+      <!-- India States & UTs -->
+      <option>ANDHRA PRADESH</option><option>ARUNACHAL PRADESH</option><option>ASSAM</option><option>BIHAR</option><option>CHHATTISGARH</option><option>DELHI</option><option>GOA</option><option>GUJARAT</option><option>HARYANA</option><option>HIMACHAL PRADESH</option><option>JAMMU AND KASHMIR</option><option>JHARKHAND</option><option>KARNATAKA</option><option>KERALA</option><option>LADAKH</option><option>LAKSHADWEEP</option><option>MADHYA PRADESH</option><option>MAHARASHTRA</option><option>MANIPUR</option><option>MEGHALAYA</option><option>MIZORAM</option><option>NAGALAND</option><option>ODISHA</option><option>PUDUCHERRY</option><option>PUNJAB</option><option>RAJASTHAN</option><option>SIKKIM</option><option>TAMIL NADU</option><option>TELANGANA</option><option>TRIPURA</option><option>UTTAR PRADESH</option><option>UTTARAKHAND</option><option>WEST BENGAL</option>
+    </select>
+    <select name="district" id="district" class="p-3 border rounded" title="DISTRICT">
+      <option value="">DISTRICT</option>
+    </select>
+    <input name="village" placeholder="VILLAGE" class="p-3 border rounded">
+    <input name="po" placeholder="P.O" class="p-3 border rounded">
+    <input name="pin" pattern="[0-9]{1,7}" placeholder="PIN CODE (MAX 7 DIGITS)" class="p-3 border rounded" title="ONLY NUMBERS, UP TO 7 DIGITS">
+  </div>
+
+  <h3 class="font-bold text-indigo-700">EDUCATIONAL QUALIFICATION</h3>
+  <div class="space-y-2" id="eduInputs">
+    <div class="grid grid-cols-4 gap-2">
+      <input placeholder="EXAMINATION" name="exam1" class="p-2 border rounded">
+      <input placeholder="BOARD/UNIVERSITY" name="board1" class="p-2 border rounded">
+      <input placeholder="PASSING YEAR" name="year1" class="p-2 border rounded">
+      <input placeholder="PERCENTAGE/CGPA" name="percent1" class="p-2 border rounded">
+    </div>
+    <div class="grid grid-cols-4 gap-2">
+      <input placeholder="EXAMINATION" name="exam2" class="p-2 border rounded">
+      <input placeholder="BOARD/UNIVERSITY" name="board2" class="p-2 border rounded">
+      <input placeholder="PASSING YEAR" name="year2" class="p-2 border rounded">
+      <input placeholder="PERCENTAGE/CGPA" name="percent2" class="p-2 border rounded">
+    </div>
+    <div class="grid grid-cols-4 gap-2">
+      <input placeholder="EXAMINATION" name="exam3" class="p-2 border rounded">
+      <input placeholder="BOARD/UNIVERSITY" name="board3" class="p-2 border rounded">
+      <input placeholder="PASSING YEAR" name="year3" class="p-2 border rounded">
+      <input placeholder="PERCENTAGE/CGPA" name="percent3" class="p-2 border rounded">
+    </div>
+  </div>
+
+  <textarea name="experience" placeholder="EXPERIENCE" class="w-full p-3 border rounded"></textarea>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <input required name="place" placeholder="* PLACE" class="p-3 border rounded">
+    <input type="date" name="date" class="p-3 border rounded" title="DATE">
+  </div>
+
+  <div class="flex gap-2">
+    <button type="submit" class="flex-1 bg-indigo-600 text-white py-3 rounded shadow">Generate Bio Data</button>
+    <button type="button" id="btnReset" class="px-4 bg-gray-200 rounded">Reset</button>
+  </div>
+</form>
+
+  </div>  <!-- Loading note -->  <div id="loading" class="hidden text-center mt-4 text-lg font-extrabold">YE SOMIR UDDIN KE DUWARA BANAYA JA RAHA HAI...</div>  <!-- OUTPUT (NEXT PAGE) -->  <div id="output" class="hidden mt-6">
+    <div id="page" class="a4page">
+      <div class="photo-box">PHOTO</div>
+      <div class="title">BIO - DATA</div>
+      <div id="outContent" class="mt-4"></div>
+    </div>
+    <div class="mt-3 flex gap-2">
+      <button id="btnPrint" class="px-4 py-2 bg-gray-800 text-white rounded">Print</button>
+      <button id="btnDownload" class="px-4 py-2 bg-green-600 text-white rounded">Download PDF</button>
+    </div>
+  </div>  <script>
+    // State -> District (Assam fully provided)
+    const DISTRICTS = {
+      'ASSAM': [
+        'BAKSA','BARPETA','BISWANATH','BONGAIGAON','CACHAR','CHARAIDEO','CHIRANG','DARRANG','DHEMAJI','DHUBRI','DIBRUGARH','DIMA HASAO','GOALPARA','GOLAGHAT','HAILAKANDI','HOJAI','JORHAT','KAMRUP','KAMRUP METRO','KARBI ANGLONG','KARIMGANJ','KOKRAJHAR','LAKHIMPUR','MAJULI','MORIGAON','NAGAON','NALBARI','SIVASAGAR','SONITPUR','SOUTH SALMARA-MANKACHAR','TINSUKIA','UDALGURI','WEST KARBI ANGLONG'
+      ]
+      // Add other states' districts here if needed
+    };
+
+    const stateSel = document.getElementById('state');
+    const distSel = document.getElementById('district');
+    stateSel.addEventListener('change', () => {
+      const st = stateSel.value;
+      distSel.innerHTML = '<option value="">DISTRICT</option>';
+      if (DISTRICTS[st]) {
+        DISTRICTS[st].forEach(d => {
+          const opt = document.createElement('option'); opt.textContent = d; distSel.appendChild(opt);
+        });
+        // Example default
+        if (st === 'ASSAM') distSel.value = 'GOALPARA';
+      }
+    });
+
+    // Helpers
+    const toUpper = s => (s || '').toString().toUpperCase();
+    const fmtDate = iso => { if(!iso) return ''; const [y,m,d] = iso.split('-'); return `${d}-${m}-${y}`; };
+
+    // Fit-to-page: reduce font if content overflows A4 (min 12pt)
+    function fitToPage(){
+      const page = document.getElementById('page');
+      let size = 18; // pt
+      const min = 12;
+      while(page.scrollHeight > page.clientHeight && size > min){
+        size -= 1; page.style.fontSize = size + 'pt';
+      }
+    }
+
+    // Build output
+    function buildKV(label, value){
+      if(!value) return '';
+      return `<div class="kv"><b>${label}</b> ${toUpper(value)}</div>`;
+    }
+
+    document.getElementById('biodataForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      // Basic required checks are handled via HTML5; extra phone guard
+      const phone = this.phone.value.trim();
+      if(!/^\d{10}$/.test(phone)) { alert('PHONE MUST BE 10 DIGITS'); return; }
+
+      document.getElementById('loading').classList.remove('hidden');
+      setTimeout(()=>{
+        document.getElementById('loading').classList.add('hidden');
+        const fd = new FormData(this);
+        let html = '';
+        html += buildKV('NAME', fd.get('name'));
+        html += buildKV("FATHER'S NAME", fd.get('fname'));
+        html += buildKV("MOTHER'S NAME", fd.get('mname'));
+        html += buildKV('GENDER', fd.get('gender'));
+        html += buildKV('DATE OF BIRTH', fmtDate(fd.get('dob')));
+        html += buildKV('MARITAL STATUS', fd.get('marital'));
+        html += buildKV('CATEGORY', fd.get('category'));
+        html += buildKV('RELIGION', fd.get('religion'));
+        html += buildKV('NATIONALITY', fd.get('nationality'));
+        html += buildKV('PHONE NUMBER', `${fd.get('countryCode').split(' ')[0]} ${fd.get('phone')}`);
+        if(fd.get('gmail')) html += buildKV('GMAIL', fd.get('gmail'));
+
+        // ADDRESS block (shown only if any present)
+        const state = fd.get('state'), district = fd.get('district'), village = fd.get('village'), po = fd.get('po'), pin = fd.get('pin');
+        if(state || district || village || po || pin){
+          html += '<br><b>ADDRESS</b>';
+          html += buildKV('STATE', state);
+          html += buildKV('DISTRICT', district);
+          html += buildKV('VILLAGE', village);
+          html += buildKV('P.O', po);
+          html += buildKV('PIN CODE', pin);
+        }
+
+        // Education table (only rows with any data)
+        let rows = '';
+        for(let i=1;i<=3;i++){
+          const ex=fd.get('exam'+i), bd=fd.get('board'+i), yr=fd.get('year'+i), pr=fd.get('percent'+i);
+          if(ex||bd||yr||pr){ rows += `<tr><td>${toUpper(ex||'')}</td><td>${toUpper(bd||'')}</td><td>${toUpper(yr||'')}</td><td>${toUpper(pr||'')}</td></tr>`; }
+        }
+        if(rows){
+          html += '<br><b>EDUCATIONAL QUALIFICATION</b>';
+          html += `<table><tr><th>EXAMINATION</th><th>BOARD/UNIVERSITY</th><th>PASSING YEAR</th><th>PERCENTAGE/CGPA</th></tr>${rows}</table>`;
+        }
+
+        if(fd.get('experience')){
+          html += '<br><b>EXPERIENCE</b>';
+          html += `<div>${toUpper(fd.get('experience'))}</div>`;
+        }
+
+        html += '<br><b>DECLARATION</b>';
+        html += '<div>I HEREBY DECLARE THAT ALL THE INFORMATION GIVEN ABOVE IS TRUE TO THE BEST OF MY KNOWLEDGE.</div>';
+
+        // Date & Place always present line + signature on right
+        const dateStr = fmtDate(fd.get('date'));
+        html += `<br><div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                  <div>DATE : ${toUpper(dateStr)}<br>PLACE : ${toUpper(fd.get('place')||'')}</div>
+                  <div style="text-align:right;">_________________<br>SIGNATURE</div>
+                 </div>`;
+
+        const out = document.getElementById('outContent');
+        const page = document.getElementById('page');
+        page.style.fontSize = '18pt'; // reset
+        out.innerHTML = html;
+        document.getElementById('output').classList.remove('hidden');
+        fitToPage();
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      }, 5000);
+    });
+
+    // Reset
+    document.getElementById('btnReset').addEventListener('click', ()=>{ document.getElementById('biodataForm').reset(); });
+
+    // Print & Download
+    document.getElementById('btnPrint').addEventListener('click', ()=> window.print());
+    document.getElementById('btnDownload').addEventListener('click', ()=>{
+      const element = document.getElementById('page');
+      const opt = { margin: 0, filename: 'BIO-DATA.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } };
+      html2pdf().from(element).set(opt).save();
+    });
+  </script></body>
+</html>
